@@ -62,4 +62,7 @@ export const toggleProductAvailability = async (
 export const deleteProduct = async (id: string) => {
   const product = await db.product.delete({ where: { id } });
   if (product == null) return notFound();
+
+  await fs.unlink(product.filePath);
+  await fs.unlink(`public${product.imagePath}`);
 };
